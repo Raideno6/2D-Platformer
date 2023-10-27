@@ -1,0 +1,128 @@
+[gd_scene load_steps=17 format=3 uid="uid://bn4m5ryfr1oef"]
+
+[ext_resource type="Script" path="res://Characters/player.gd" id="1_q8cb7"]
+[ext_resource type="Texture2D" uid="uid://k23eecsvnoen" path="res://art/Player/Falling.png" id="1_sgwwu"]
+[ext_resource type="Texture2D" uid="uid://e6dc08rfp125" path="res://art/Player/Idle.png" id="2_3a3n4"]
+[ext_resource type="Texture2D" uid="uid://lelb6x0iux10" path="res://art/Player/Crouch_Idle.png" id="2_oahqd"]
+[ext_resource type="Texture2D" uid="uid://brcc5y2g8615m" path="res://art/Player/Jumping.png" id="3_6fvds"]
+[ext_resource type="Texture2D" uid="uid://bddpvkopmc8rk" path="res://art/Player/Crouch_Walking.png" id="3_pkixy"]
+[ext_resource type="Texture2D" uid="uid://d0gy526xh4rfr" path="res://art/Player/Walking.png" id="4_qijpg"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_om8dd"]
+radius = 14.0
+height = 34.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w1ntl"]
+atlas = ExtResource("3_pkixy")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yj3at"]
+atlas = ExtResource("3_pkixy")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ugcet"]
+atlas = ExtResource("1_sgwwu")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bii6s"]
+atlas = ExtResource("1_sgwwu")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rueg6"]
+atlas = ExtResource("4_qijpg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_shhfm"]
+atlas = ExtResource("4_qijpg")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j5qlh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_oahqd")
+}],
+"loop": true,
+"name": &"Crouch",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w1ntl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yj3at")
+}],
+"loop": true,
+"name": &"CrouchWalk",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ugcet")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bii6s")
+}],
+"loop": true,
+"name": &"Falling",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_3a3n4")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_6fvds")
+}],
+"loop": true,
+"name": &"Jumping",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rueg6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_shhfm")
+}],
+"loop": true,
+"name": &"Walking",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_eek3d"]
+height = 26.0
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 5
+collision_mask = 3
+script = ExtResource("1_q8cb7")
+
+[node name="NormalHitbox" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_om8dd")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_j5qlh")
+animation = &"Crouch"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.67, 0.67)
+
+[node name="CoyoteTimer" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
+
+[node name="JumpBuffer" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
+
+[node name="CrouchingHitbox" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3)
+shape = SubResource("CapsuleShape2D_eek3d")
