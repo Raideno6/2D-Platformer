@@ -10,5 +10,5 @@ func respawn():
 		$Player.position = $SpawnPoint.position
 
 
-#func _on_death_zone_area_entered(area):
-#	if
+
+
