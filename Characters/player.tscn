@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bn4m5ryfr1oef"]
+[gd_scene load_steps=29 format=3 uid="uid://bn4m5ryfr1oef"]
 
 [ext_resource type="Script" path="res://Characters/player.gd" id="1_q8cb7"]
 [ext_resource type="Texture2D" uid="uid://k23eecsvnoen" path="res://art/Player/Falling.png" id="1_sgwwu"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://brcc5y2g8615m" path="res://art/Player/Jumping.png" id="3_6fvds"]
 [ext_resource type="Texture2D" uid="uid://bddpvkopmc8rk" path="res://art/Player/Crouch_Walking.png" id="3_pkixy"]
 [ext_resource type="Texture2D" uid="uid://d0gy526xh4rfr" path="res://art/Player/Walking.png" id="4_qijpg"]
+[ext_resource type="Texture2D" uid="uid://b0h8057ho81m2" path="res://art/Player/Wave.png" id="8_8yalv"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_om8dd"]
 radius = 14.0
@@ -35,6 +36,50 @@ region = Rect2(0, 0, 32, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_shhfm"]
 atlas = ExtResource("4_qijpg")
 region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ytkg"]
+atlas = ExtResource("8_8yalv")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7khxq"]
+atlas = ExtResource("8_8yalv")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tpvio"]
+atlas = ExtResource("8_8yalv")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m77qb"]
+atlas = ExtResource("8_8yalv")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kfuh8"]
+atlas = ExtResource("8_8yalv")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p2q1y"]
+atlas = ExtResource("8_8yalv")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wnpha"]
+atlas = ExtResource("8_8yalv")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q00ar"]
+atlas = ExtResource("8_8yalv")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ny8nd"]
+atlas = ExtResource("8_8yalv")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qwa45"]
+atlas = ExtResource("8_8yalv")
+region = Rect2(0, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ve554"]
+atlas = ExtResource("8_8yalv")
+region = Rect2(32, 96, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_j5qlh"]
 animations = [{
@@ -74,7 +119,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"Idle",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -94,6 +139,44 @@ animations = [{
 "loop": true,
 "name": &"Walking",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ytkg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7khxq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tpvio")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m77qb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kfuh8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p2q1y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wnpha")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q00ar")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ny8nd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qwa45")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ve554")
+}],
+"loop": true,
+"name": &"Waving",
+"speed": 5.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_eek3d"]
@@ -110,19 +193,21 @@ shape = SubResource("CapsuleShape2D_om8dd")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_j5qlh")
-animation = &"Crouch"
+animation = &"Waving"
+frame_progress = 0.594524
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(0.67, 0.67)
 
 [node name="CoyoteTimer" type="Timer" parent="."]
-wait_time = 0.15
 one_shot = true
 
 [node name="JumpBuffer" type="Timer" parent="."]
-wait_time = 0.15
+wait_time = 0.1
 one_shot = true
 
 [node name="CrouchingHitbox" type="CollisionShape2D" parent="."]
 position = Vector2(0, 3)
 shape = SubResource("CapsuleShape2D_eek3d")
+
+[connection signal="timeout" from="CoyoteTimer" to="." method="_on_coyote_timer_timeout"]

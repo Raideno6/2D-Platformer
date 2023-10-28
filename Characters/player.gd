@@ -12,11 +12,17 @@ var timeForFullJump = 0.1;
 
 var xInput = 0;
 
-var JumpSpeed = 200;
+var JumpForce = 200;
 
 var minHorizontalSpeed = 0.1;
 
+var coyoteTime = .1
 
+var canJump = false
+
+@onready var jumpBuffer = $JumpBuffer
+
+var bufferedJump = false
 
 
 func _ready():
@@ -31,11 +37,26 @@ func _physics_process(delta):
 	
 	player_movement(delta)
 	
+	if is_on_floor() and canJump == false:
+		canJump = true
 	
-	print(velocity.x)
-
+	elif canJump == true and $CoyoteTimer.is_stopped():
+		$CoyoteTimer.start(coyoteTime)
+	
+	if canJump:
+		if Input.is_action_just_pressed("Jump") or bufferedJump:
+			jump()
+			bufferedJump = false
+	
+	if Input.is_action_just_released("Jump"):
+		jump_cut()
+		bufferedJump = false
+	
 	play_animation()
 	
+	if Input.is_action_just_pressed("Jump"):
+		bufferedJump = true
+		jumpBuffer.start()
 	
 	if Input.is_action_pressed("Crouch") && is_on_floor():
 		$NormalHitbox.set_disabled(true)
@@ -48,12 +69,8 @@ func _physics_process(delta):
 		velocity.y += gravity * delta;
 	
 	
-	handle_jump();
-	
 	if not is_on_floor() && Input.is_action_pressed("Crouch"):
 		velocity.y += 2000 * delta;
-	
-
 
 
 
@@ -70,7 +87,6 @@ func player_movement(delta):
 	
 	if xInput == 0 and abs(velocity.x) < minHorizontalSpeed:
 		velocity.x = 0
-	print(xInput," ",abs(velocity.x)," ",minHorizontalSpeed)
 	
 	move_and_slide()
 
@@ -79,7 +95,7 @@ func player_movement(delta):
 
 func play_animation():
 	update_input()
-	if is_on_floor && !Input.is_action_pressed("Crouch"):
+	if is_on_floor() && !Input.is_action_pressed("Crouch"):
 		if xInput > 0:
 			$AnimatedSprite2D.flip_h = false;
 			$AnimatedSprite2D.play("Walking", 1, false)
@@ -91,9 +107,9 @@ func play_animation():
 		$AnimatedSprite2D.animation = "Jumping"
 	
 	if velocity.y > 0 && !is_on_floor():
-		$AnimatedSprite2D.play("Falling", 1, false)
+		$AnimatedSprite2D.play("Falling", 2, false)
 	
-	if xInput == 0 && is_on_floor():
+	if xInput == 0 && is_on_floor() && !Input.is_action_pressed("Wave"):
 		$AnimatedSprite2D.animation = ("Idle")
 	
 	if is_on_floor() && Input.is_action_pressed("Crouch") && xInput == 0:
@@ -106,18 +122,21 @@ func play_animation():
 		elif xInput < 0:
 			$AnimatedSprite2D.flip_h = velocity.x < 0;
 			$AnimatedSprite2D.play("CrouchWalk", 1, false)
-
-func handle_jump():
-	if Input.is_action_just_pressed("Jump"):
-			if is_on_floor():
-				velocity.y = -JumpSpeed;
 	
-	if Input.is_action_just_released("Jump"):
-		jump_cut()
+	if Input.is_action_pressed("Wave"):
+		$AnimatedSprite2D.play("Waving", 5, false)
+
+
+
+func jump():
+	velocity.y = -JumpForce;
+
 
 func jump_cut():
 	if velocity.y < -100:
 		velocity.y = -100
 
-func player_death():
-	pass
+
+
+func _on_coyote_timer_timeout():
+	canJump = false
