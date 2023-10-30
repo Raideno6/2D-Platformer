@@ -2,38 +2,48 @@ extends CharacterBody2D
 
 const ACCEL = 5;
 
-var max_speed = 200;
+var maxSpeed = 200;
+
+var maxCrouchSpeed = 100;
 
 var gravity = 500;
 
 var timeHeld = 0;
 
-var timeForFullJump = 0.1;
+var timeForFullJump = .1
 
 var xInput = 0;
 
-var JumpForce = 200;
+var JumpForce = 250;
 
 var minHorizontalSpeed = 0.1;
 
-var coyoteTime = .1
+var coyoteTime = .2
 
 var canJump = false
 
 @onready var jumpBuffer = $JumpBuffer
+
+@onready var waveTimer = $WaveTimer
 
 var bufferedJump = false
 
 
 func _ready():
 	$AnimatedSprite2D.animation = "Idle"
-	$NormalHitbox.set_disabled(false)
-	$CrouchingHitbox.set_disabled(true)
+	$PlayerHitbox/NormalHitbox.set_disabled(false)
+	$PlayerHitbox/CrouchingHitbox.set_disabled(true)
 	
 	global_position = %SpawnPoint.global_position
 	
+	show()
+	
 
 func _physics_process(delta):
+	
+	if $AnimatedSprite2D.is_playing():
+		if $AnimatedSprite2D.animation == "Waving":
+			return
 	
 	player_movement(delta)
 	
@@ -58,12 +68,12 @@ func _physics_process(delta):
 		bufferedJump = true
 		jumpBuffer.start()
 	
-	if Input.is_action_pressed("Crouch") && is_on_floor():
-		$NormalHitbox.set_disabled(true)
-		$CrouchingHitbox.set_disabled(false)
+	if Input.is_action_pressed("Crouch") and is_on_floor():
+		$PlayerHitbox/NormalHitbox.set_disabled(true)
+		$PlayerHitbox/CrouchingHitbox.set_disabled(false)
 	else:
-		$NormalHitbox.set_disabled(false)
-		$CrouchingHitbox.set_disabled(true)
+		$PlayerHitbox/NormalHitbox.set_disabled(false)
+		$PlayerHitbox/CrouchingHitbox.set_disabled(true)
 	
 	if not is_on_floor():
 		velocity.y += gravity * delta;
@@ -71,6 +81,10 @@ func _physics_process(delta):
 	
 	if not is_on_floor() && Input.is_action_pressed("Crouch"):
 		velocity.y += 2000 * delta;
+	
+	for area in $PlayerHitbox.get_overlapping_areas():
+		if area.is_in_group("DeathZone"):
+			kill_player()
 
 
 
@@ -83,11 +97,14 @@ func update_input():
 func player_movement(delta):
 	update_input()
 	
-	velocity.x = lerp(velocity.x ,xInput * max_speed,ACCEL * delta)
+	if Input.is_action_pressed("Crouch") and is_on_floor():
+		velocity.x = lerp(velocity.x ,xInput * maxCrouchSpeed,ACCEL * delta)
+	else:
+		velocity.x = lerp(velocity.x ,xInput * maxSpeed,ACCEL * delta)
 	
 	if xInput == 0 and abs(velocity.x) < minHorizontalSpeed:
 		velocity.x = 0
-	
+		
 	move_and_slide()
 
 
@@ -125,6 +142,8 @@ func play_animation():
 	
 	if Input.is_action_pressed("Wave"):
 		$AnimatedSprite2D.play("Waving", 5, false)
+		await $AnimatedSprite2D.animation_finished
+	
 
 
 
@@ -140,3 +159,10 @@ func jump_cut():
 
 func _on_coyote_timer_timeout():
 	canJump = false
+
+func kill_player():
+	hide()
+	$Death.play()
+	$PlayerHitbox/NormalHitbox.set_disabled(false)
+	$PlayerHitbox/CrouchingHitbox.set_disabled(false)
+	print("player has died!!!!!")

@@ -17,6 +17,10 @@ config/icon="res://icon.svg"
 
 [display]
 
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/size/initial_position_type=0
+window/stretch/aspect="ignore"
 window/stretch/scale=4.0
 
 [input]
@@ -71,6 +75,7 @@ Wave={
 2d_physics/layer_1="Everything"
 2d_physics/layer_2="Ground"
 2d_physics/layer_3="Player"
+2d_physics/layer_4="Death Zone"
 
 [physics]
 

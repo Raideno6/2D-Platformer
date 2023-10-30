@@ -1,0 +1,61 @@
+[gd_scene load_steps=4 format=3 uid="uid://cwevoteutcp87"]
+
+[ext_resource type="FontFile" uid="uid://cxt3nxfbw126v" path="res://art/the_amazing_spider_man/The Amazing Spider-Man.ttf" id="1_jj412"]
+[ext_resource type="Script" path="res://game_over.gd" id="1_xgct6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ms1en"]
+font = ExtResource("1_jj412")
+font_size = 175
+font_color = Color(0.670588, 0, 0, 1)
+shadow_color = Color(0.533333, 0, 0, 0.317647)
+shadow_offset = Vector2(15, 15)
+
+[node name="GameOver" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xgct6")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -411.872
+offset_top = 112.0
+offset_right = 411.872
+offset_bottom = 339.0
+grow_horizontal = 2
+text = "GAME OVER"
+label_settings = SubResource("LabelSettings_ms1en")
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -161.5
+offset_top = 33.0
+offset_right = 161.5
+offset_bottom = 185.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_jj412")
+theme_override_font_sizes/font_size = 75
+text = "RESPAWN?"
+flat = true
