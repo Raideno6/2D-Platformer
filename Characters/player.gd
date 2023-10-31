@@ -6,9 +6,9 @@ var maxSpeed = 200;
 
 var maxCrouchSpeed = 100;
 
-var gravity = 500;
+var gravity = 750;
 
-var timeHeld = 0;
+var maxJumpHeight = 150
 
 var timeForFullJump = .1
 
@@ -31,8 +31,8 @@ var bufferedJump = false
 
 func _ready():
 	$AnimatedSprite2D.animation = "Idle"
-	$PlayerHitbox/NormalHitbox.set_disabled(false)
-	$PlayerHitbox/CrouchingHitbox.set_disabled(true)
+	$NormalHitbox.set_disabled(false)
+	$CrouchingHitbox.set_disabled(true)
 	
 	global_position = %SpawnPoint.global_position
 	
@@ -69,11 +69,11 @@ func _physics_process(delta):
 		jumpBuffer.start()
 	
 	if Input.is_action_pressed("Crouch") and is_on_floor():
-		$PlayerHitbox/NormalHitbox.set_disabled(true)
-		$PlayerHitbox/CrouchingHitbox.set_disabled(false)
+		$NormalHitbox.set_disabled(true)
+		$CrouchingHitbox.set_disabled(false)
 	else:
-		$PlayerHitbox/NormalHitbox.set_disabled(false)
-		$PlayerHitbox/CrouchingHitbox.set_disabled(true)
+		$NormalHitbox.set_disabled(false)
+		$CrouchingHitbox.set_disabled(true)
 	
 	if not is_on_floor():
 		velocity.y += gravity * delta;
@@ -82,9 +82,6 @@ func _physics_process(delta):
 	if not is_on_floor() && Input.is_action_pressed("Crouch"):
 		velocity.y += 2000 * delta;
 	
-	for area in $PlayerHitbox.get_overlapping_areas():
-		if area.is_in_group("DeathZone"):
-			kill_player()
 
 
 
@@ -106,6 +103,14 @@ func player_movement(delta):
 		velocity.x = 0
 		
 	move_and_slide()
+	
+	#check if we should die
+	var collisionInfo = get_last_slide_collision()
+	if collisionInfo != null and collisionInfo.get_collider() != null and collisionInfo.get_collider().is_in_group("DeathZone"):
+		die()
+	
+	
+	
 
 
 
@@ -148,7 +153,11 @@ func play_animation():
 
 
 func jump():
-	velocity.y = -JumpForce;
+	
+	var jumpForce = -sqrt(gravity * maxJumpHeight)
+	
+	
+	velocity.y = jumpForce;
 
 
 func jump_cut():
@@ -160,9 +169,11 @@ func jump_cut():
 func _on_coyote_timer_timeout():
 	canJump = false
 
-func kill_player():
+func die():
 	hide()
 	$Death.play()
-	$PlayerHitbox/NormalHitbox.set_disabled(false)
-	$PlayerHitbox/CrouchingHitbox.set_disabled(false)
-	print("player has died!!!!!")
+	$NormalHitbox.set_disabled(false)
+	$CrouchingHitbox.set_disabled(false)
+	get_tree().change_scene_to_file("res://game_over.tscn")
+
+

@@ -1,0 +1,63 @@
+[gd_scene load_steps=4 format=3 uid="uid://djemfq33wu2r2"]
+
+[ext_resource type="Script" path="res://Main Menu.gd" id="1_pjc45"]
+[ext_resource type="FontFile" uid="uid://cxt3nxfbw126v" path="res://art/the_amazing_spider_man/The Amazing Spider-Man.ttf" id="2_prrvj"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_c1njq"]
+font = ExtResource("2_prrvj")
+font_size = 175
+shadow_color = Color(0, 0.27451, 0.517647, 0.317647)
+shadow_offset = Vector2(15, 15)
+
+[node name="Main Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pjc45")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.129412, 0.356863, 0.968627, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="GameTitle" type="Label" parent="CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -494.5
+offset_top = 85.0
+offset_right = 494.5
+offset_bottom = 312.0
+grow_horizontal = 2
+text = "PLACE HOLDER"
+label_settings = SubResource("LabelSettings_c1njq")
+horizontal_alignment = 1
+
+[node name="RespawnButtom" type="Button" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -144.5
+offset_top = 37.5
+offset_right = 144.5
+offset_bottom = 142.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_prrvj")
+theme_override_font_sizes/font_size = 75
+text = "PLAY"
+flat = true
+
+[connection signal="pressed" from="CanvasLayer/RespawnButtom" to="." method="_on_respawn_buttom_pressed"]
