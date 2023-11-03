@@ -30,6 +30,7 @@ var bufferedJump = false
 
 
 func _ready():
+	#Initalizes player
 	$AnimatedSprite2D.animation = "Idle"
 	$NormalHitbox.set_disabled(false)
 	$CrouchingHitbox.set_disabled(true)
@@ -38,7 +39,10 @@ func _ready():
 	
 	show()
 	
+"""
+tyt
 
+"""
 func _physics_process(delta):
 	
 	if $AnimatedSprite2D.is_playing():
@@ -47,27 +51,35 @@ func _physics_process(delta):
 	
 	player_movement(delta)
 	
+	#When player reaches the floor and if they cannot jump, allow them to jump
 	if is_on_floor() and canJump == false:
 		canJump = true
 	
+	#Starts Coyote Timer if player can jump and the timer isnt running
 	elif canJump == true and $CoyoteTimer.is_stopped():
 		$CoyoteTimer.start(coyoteTime)
 	
+	# If player hits jump or can buffer jump, allow player to jump
 	if canJump:
 		if Input.is_action_just_pressed("Jump") or bufferedJump:
 			jump()
+			canJump = false;
 			bufferedJump = false
 	
+	#When player releases jump earlier, cuts jump off
 	if Input.is_action_just_released("Jump"):
-		jump_cut()
 		bufferedJump = false
+		jump_cut()
+
 	
 	play_animation()
 	
+	# Startr jump buffer timer when player first jumps
 	if Input.is_action_just_pressed("Jump"):
 		bufferedJump = true
 		jumpBuffer.start()
 	
+	#Changes hitbox to smaller one if player crouches
 	if Input.is_action_pressed("Crouch") and is_on_floor():
 		$NormalHitbox.set_disabled(true)
 		$CrouchingHitbox.set_disabled(false)
@@ -75,6 +87,7 @@ func _physics_process(delta):
 		$NormalHitbox.set_disabled(false)
 		$CrouchingHitbox.set_disabled(true)
 	
+	#Makes player fall if no one floor
 	if not is_on_floor():
 		velocity.y += gravity * delta;
 	
@@ -84,27 +97,31 @@ func _physics_process(delta):
 	
 
 
-
+#Gets input from user to move left and right
 func update_input():
 	xInput = Input.get_action_strength("Right") - Input.get_action_strength("Left");
 
 
 
-
+"""
+Every frame updates player Movement
+"""
 func player_movement(delta):
 	update_input()
 	
+	#allows user to crouch and makes them walk slower if so
 	if Input.is_action_pressed("Crouch") and is_on_floor():
 		velocity.x = lerp(velocity.x ,xInput * maxCrouchSpeed,ACCEL * delta)
 	else:
 		velocity.x = lerp(velocity.x ,xInput * maxSpeed,ACCEL * delta)
 	
+	#Brings player to a full stop if they are moving at a insanley slow speed
 	if xInput == 0 and abs(velocity.x) < minHorizontalSpeed:
 		velocity.x = 0
 		
 	move_and_slide()
 	
-	#check if we should die
+	# check if we should die
 	var collisionInfo = get_last_slide_collision()
 	if collisionInfo != null and collisionInfo.get_collider() != null and collisionInfo.get_collider().is_in_group("DeathZone"):
 		die()
@@ -114,7 +131,7 @@ func player_movement(delta):
 
 
 
-
+# Plays animations for user
 func play_animation():
 	update_input()
 	if is_on_floor() && !Input.is_action_pressed("Crouch"):
@@ -151,7 +168,7 @@ func play_animation():
 	
 
 
-
+#Using kenematic equation to let player jump to certain height
 func jump():
 	
 	var jumpForce = -sqrt(gravity * maxJumpHeight)
@@ -160,15 +177,19 @@ func jump():
 	velocity.y = jumpForce;
 
 
+#Stops player jump earlier if lets go of jump key
 func jump_cut():
-	if velocity.y < -100:
+	if velocity.y < -100: 
 		velocity.y = -100
 
 
 
+# Allows player to jump a few seconds after they leave a surface
+
 func _on_coyote_timer_timeout():
 	canJump = false
 
+# Sets player as dead and changes scene
 func die():
 	hide()
 	$Death.play()

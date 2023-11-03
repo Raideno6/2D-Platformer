@@ -217,7 +217,7 @@ script = ExtResource("1_q8cb7")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_j5qlh")
-animation = &"Waving"
+animation = &"Crouch"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2.525, 2.525)

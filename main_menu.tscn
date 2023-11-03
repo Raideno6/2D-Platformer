@@ -1,13 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://djemfq33wu2r2"]
+[gd_scene load_steps=5 format=3 uid="uid://djemfq33wu2r2"]
 
 [ext_resource type="Script" path="res://Main Menu.gd" id="1_pjc45"]
 [ext_resource type="FontFile" uid="uid://cxt3nxfbw126v" path="res://art/the_amazing_spider_man/The Amazing Spider-Man.ttf" id="2_prrvj"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_c1njq"]
 font = ExtResource("2_prrvj")
-font_size = 175
+font_size = 150
 shadow_color = Color(0, 0.27451, 0.517647, 0.317647)
 shadow_offset = Vector2(15, 15)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qgpv2"]
+bg_color = Color(0, 0, 0, 1)
 
 [node name="Main Menu" type="Control"]
 layout_mode = 3
@@ -18,10 +21,15 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_pjc45")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="MainMenu" type="Container" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Main" type="CanvasLayer" parent="MainMenu"]
+visible = false
 follow_viewport_enabled = true
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="ColorRect" type="ColorRect" parent="MainMenu/Main"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -30,34 +38,287 @@ grow_vertical = 2
 color = Color(0.129412, 0.356863, 0.968627, 1)
 metadata/_edit_use_anchors_ = true
 
-[node name="GameTitle" type="Label" parent="CanvasLayer"]
+[node name="GameTitle" type="Label" parent="MainMenu/Main"]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -494.5
-offset_top = 85.0
+offset_top = 66.0
 offset_right = 494.5
-offset_bottom = 312.0
+offset_bottom = 293.0
 grow_horizontal = 2
 text = "PLACE HOLDER"
 label_settings = SubResource("LabelSettings_c1njq")
 horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
 
-[node name="RespawnButtom" type="Button" parent="CanvasLayer"]
+[node name="PlayBtn" type="Button" parent="MainMenu/Main"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -144.5
-offset_top = 37.5
+offset_top = -11.5
 offset_right = 144.5
-offset_bottom = 142.5
+offset_bottom = 93.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("2_prrvj")
 theme_override_font_sizes/font_size = 75
 text = "PLAY"
 flat = true
+metadata/_edit_use_anchors_ = true
 
-[connection signal="pressed" from="CanvasLayer/RespawnButtom" to="." method="_on_respawn_buttom_pressed"]
+[node name="SettingsBtn" type="Button" parent="MainMenu/Main"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -144.5
+offset_top = 90.0
+offset_right = 144.5
+offset_bottom = 195.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_prrvj")
+theme_override_font_sizes/font_size = 75
+text = "SETTINGS"
+flat = true
+metadata/_edit_use_anchors_ = true
+
+[node name="QuitBtn" type="Button" parent="MainMenu/Main"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -144.5
+offset_top = 199.0
+offset_right = 144.5
+offset_bottom = 304.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_prrvj")
+theme_override_font_sizes/font_size = 75
+text = "QUIT"
+flat = true
+metadata/_edit_use_anchors_ = true
+
+[node name="SettingsMenu" type="Container" parent="."]
+visible = false
+layout_mode = 0
+offset_top = -7.0
+offset_right = 1149.0
+offset_bottom = 639.0
+
+[node name="Settings" type="CanvasLayer" parent="SettingsMenu"]
+follow_viewport_enabled = true
+
+[node name="ColorRect" type="ColorRect" parent="SettingsMenu/Settings"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0705882, 0, 0.388235, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="SettingsLable" type="Label" parent="SettingsMenu/Settings"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -494.5
+offset_top = 49.0
+offset_right = 494.5
+offset_bottom = 276.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 1
+text = "SETTINGS"
+label_settings = SubResource("LabelSettings_c1njq")
+horizontal_alignment = 1
+
+[node name="ApplyBtn" type="Button" parent="SettingsMenu/Settings"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -170.5
+offset_top = -127.0
+offset_right = 170.5
+offset_bottom = -22.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 71
+text = "APPLY"
+
+[node name="Resolution" type="Label" parent="SettingsMenu/Settings"]
+offset_left = 349.0
+offset_top = 274.0
+offset_right = 500.0
+offset_bottom = 322.0
+theme_override_fonts/font = ExtResource("2_prrvj")
+theme_override_font_sizes/font_size = 34
+text = "RESOLUTION"
+
+[node name="WidthBox" type="SpinBox" parent="SettingsMenu/Settings"]
+offset_left = 648.0
+offset_top = 266.0
+offset_right = 731.063
+offset_bottom = 323.0
+max_value = 1e+06
+value = 1152.0
+rounded = true
+alignment = 1
+
+[node name="HeightBox" type="SpinBox" parent="SettingsMenu/Settings"]
+offset_left = 754.0
+offset_top = 266.0
+offset_right = 821.063
+offset_bottom = 323.0
+max_value = 1e+06
+value = 648.0
+rounded = true
+alignment = 1
+
+[node name="VSYNC" type="Label" parent="SettingsMenu/Settings"]
+offset_left = 342.935
+offset_top = 451.0
+offset_right = 423.935
+offset_bottom = 499.0
+theme_override_fonts/font = ExtResource("2_prrvj")
+theme_override_font_sizes/font_size = 34
+text = "VSYNC"
+
+[node name="VsyncBtn" type="CheckButton" parent="SettingsMenu/Settings"]
+offset_left = 663.935
+offset_top = 448.0
+offset_right = 759.935
+offset_bottom = 503.0
+theme_override_font_sizes/font_size = 30
+text = "ON"
+
+[node name="FullScreen" type="Label" parent="SettingsMenu/Settings"]
+offset_left = 342.435
+offset_top = 366.0
+offset_right = 514.435
+offset_bottom = 414.0
+pivot_offset = Vector2(3.05176e-05, 0)
+theme_override_fonts/font = ExtResource("2_prrvj")
+theme_override_font_sizes/font_size = 34
+text = "FULL SCREEN"
+
+[node name="FullScreenBtn" type="CheckButton" parent="SettingsMenu/Settings"]
+offset_left = 664.435
+offset_top = 363.0
+offset_right = 760.435
+offset_bottom = 418.0
+theme_override_font_sizes/font_size = 30
+text = "ON"
+
+[node name="Label" type="Label" parent="SettingsMenu/Settings"]
+offset_left = 734.0
+offset_top = 285.0
+offset_right = 744.0
+offset_bottom = 311.0
+text = "X"
+
+[node name="BackButton" type="Button" parent="SettingsMenu/Settings"]
+offset_left = 6.0
+offset_top = -24.0
+offset_right = 81.0
+offset_bottom = 122.0
+theme_override_font_sizes/font_size = 101
+text = "X"
+flat = true
+
+[node name="Width" type="Label" parent="SettingsMenu/Settings"]
+anchors_preset = -1
+anchor_right = 0.109
+anchor_bottom = 0.035
+offset_left = 659.0
+offset_top = 240.0
+offset_right = 580.432
+offset_bottom = 243.32
+text = "Width"
+
+[node name="Height" type="Label" parent="SettingsMenu/Settings"]
+anchors_preset = -1
+anchor_right = 0.109
+anchor_bottom = 0.035
+offset_left = 762.0
+offset_top = 240.0
+offset_right = 688.432
+offset_bottom = 243.32
+text = "Height"
+
+[node name="WarningPrompt" type="Panel" parent="SettingsMenu/Settings"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -583.0
+offset_top = -125.0
+offset_right = 581.0
+offset_bottom = 134.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qgpv2")
+
+[node name="Warning" type="Label" parent="SettingsMenu/Settings/WarningPrompt"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -288.0
+offset_right = 288.0
+offset_bottom = 58.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 25
+text = "You have changed the width and/or height value of the resolution. 
+Are you sure you want to change this?"
+horizontal_alignment = 1
+
+[node name="ApplyChange" type="Button" parent="SettingsMenu/Settings/WarningPrompt"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -302.5
+offset_top = -90.0
+offset_right = -45.5
+offset_bottom = -19.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 25
+text = "APPLY THIS CHANGE"
+
+[node name="RevertBtn" type="Button" parent="SettingsMenu/Settings/WarningPrompt"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 41.5
+offset_top = -90.0
+offset_right = 308.5
+offset_bottom = -19.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 25
+text = "REVERT TO ORIGIANL"
+
+[connection signal="pressed" from="MainMenu/Main/PlayBtn" to="." method="_on_play_btn_pressed"]
+[connection signal="pressed" from="MainMenu/Main/SettingsBtn" to="." method="_on_settings_btn_pressed"]
+[connection signal="pressed" from="SettingsMenu/Settings/ApplyBtn" to="." method="_on_apply_btn_pressed"]
+[connection signal="value_changed" from="SettingsMenu/Settings/WidthBox" to="." method="_on_width_box_value_changed"]
+[connection signal="value_changed" from="SettingsMenu/Settings/HeightBox" to="." method="_on_height_box_value_changed"]
+[connection signal="pressed" from="SettingsMenu/Settings/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="SettingsMenu/Settings/WarningPrompt/ApplyChange" to="." method="_on_apply_change_pressed"]
+[connection signal="pressed" from="SettingsMenu/Settings/WarningPrompt/RevertBtn" to="." method="_on_revert_btn_pressed"]
