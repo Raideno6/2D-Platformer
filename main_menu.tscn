@@ -22,6 +22,7 @@ grow_vertical = 2
 script = ExtResource("1_pjc45")
 
 [node name="MainMenu" type="Container" parent="."]
+layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
@@ -163,26 +164,6 @@ theme_override_fonts/font = ExtResource("2_prrvj")
 theme_override_font_sizes/font_size = 34
 text = "RESOLUTION"
 
-[node name="WidthBox" type="SpinBox" parent="SettingsMenu/Settings"]
-offset_left = 648.0
-offset_top = 266.0
-offset_right = 731.063
-offset_bottom = 323.0
-max_value = 1e+06
-value = 1152.0
-rounded = true
-alignment = 1
-
-[node name="HeightBox" type="SpinBox" parent="SettingsMenu/Settings"]
-offset_left = 754.0
-offset_top = 266.0
-offset_right = 821.063
-offset_bottom = 323.0
-max_value = 1e+06
-value = 648.0
-rounded = true
-alignment = 1
-
 [node name="VSYNC" type="Label" parent="SettingsMenu/Settings"]
 offset_left = 342.935
 offset_top = 451.0
@@ -191,6 +172,15 @@ offset_bottom = 499.0
 theme_override_fonts/font = ExtResource("2_prrvj")
 theme_override_font_sizes/font_size = 34
 text = "VSYNC"
+
+[node name="CannotChange" type="Label" parent="SettingsMenu/Settings"]
+offset_left = 617.0
+offset_top = 279.0
+offset_right = 810.0
+offset_bottom = 327.0
+theme_override_fonts/font = ExtResource("2_prrvj")
+theme_override_font_sizes/font_size = 30
+text = "CANNOT CHANGE"
 
 [node name="VsyncBtn" type="CheckButton" parent="SettingsMenu/Settings"]
 offset_left = 663.935
@@ -218,12 +208,65 @@ offset_bottom = 418.0
 theme_override_font_sizes/font_size = 30
 text = "ON"
 
-[node name="Label" type="Label" parent="SettingsMenu/Settings"]
+[node name="ResolutionOptions" type="Panel" parent="SettingsMenu/Settings"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="WidthBox" type="SpinBox" parent="SettingsMenu/Settings/ResolutionOptions"]
+offset_left = 648.0
+offset_top = 266.0
+offset_right = 731.063
+offset_bottom = 323.0
+max_value = 1e+06
+value = 1152.0
+rounded = true
+alignment = 1
+
+[node name="HeightBox" type="SpinBox" parent="SettingsMenu/Settings/ResolutionOptions"]
+offset_left = 754.0
+offset_top = 266.0
+offset_right = 837.063
+offset_bottom = 323.0
+max_value = 1e+06
+value = 648.0
+rounded = true
+alignment = 1
+
+[node name="Width" type="Label" parent="SettingsMenu/Settings/ResolutionOptions"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.109
+anchor_bottom = 0.035
+offset_left = 659.0
+offset_top = 240.0
+offset_right = 701.64
+offset_bottom = 264.6
+text = "Width"
+
+[node name="Height" type="Label" parent="SettingsMenu/Settings/ResolutionOptions"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.109
+anchor_bottom = 0.035
+offset_left = 762.0
+offset_top = 240.0
+offset_right = 809.64
+offset_bottom = 264.6
+text = "Height"
+
+[node name="Label" type="Label" parent="SettingsMenu/Settings/ResolutionOptions"]
 offset_left = 734.0
 offset_top = 285.0
 offset_right = 744.0
 offset_bottom = 311.0
 text = "X"
+
+[node name="ResetBtn" type="Button" parent="SettingsMenu/Settings/ResolutionOptions"]
+offset_left = 664.0
+offset_top = 329.0
+offset_right = 810.0
+offset_bottom = 360.0
+text = "Reset resolution"
 
 [node name="BackButton" type="Button" parent="SettingsMenu/Settings"]
 offset_left = 6.0
@@ -234,27 +277,8 @@ theme_override_font_sizes/font_size = 101
 text = "X"
 flat = true
 
-[node name="Width" type="Label" parent="SettingsMenu/Settings"]
-anchors_preset = -1
-anchor_right = 0.109
-anchor_bottom = 0.035
-offset_left = 659.0
-offset_top = 240.0
-offset_right = 580.432
-offset_bottom = 243.32
-text = "Width"
-
-[node name="Height" type="Label" parent="SettingsMenu/Settings"]
-anchors_preset = -1
-anchor_right = 0.109
-anchor_bottom = 0.035
-offset_left = 762.0
-offset_top = 240.0
-offset_right = 688.432
-offset_bottom = 243.32
-text = "Height"
-
 [node name="WarningPrompt" type="Panel" parent="SettingsMenu/Settings"]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -282,6 +306,41 @@ text = "You have changed the width and/or height value of the resolution.
 Are you sure you want to change this?"
 horizontal_alignment = 1
 
+[node name="CountdownPrompt" type="Label" parent="SettingsMenu/Settings/WarningPrompt"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -195.5
+offset_top = -38.0
+offset_right = 195.5
+offset_bottom = 38.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 21
+text = "If you do not accept this change in       seconds, 
+screen size will revert to previous"
+horizontal_alignment = 1
+
+[node name="Time" type="Label" parent="SettingsMenu/Settings/WarningPrompt/CountdownPrompt"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 114.0
+offset_top = -37.5
+offset_right = 138.0
+offset_bottom = -4.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 21
+text = "15"
+horizontal_alignment = 1
+
 [node name="ApplyChange" type="Button" parent="SettingsMenu/Settings/WarningPrompt"]
 layout_mode = 1
 anchors_preset = 7
@@ -289,10 +348,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -302.5
+offset_left = -330.0
 offset_top = -90.0
-offset_right = -45.5
-offset_bottom = -19.0
+offset_right = -45.0
+offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 25
@@ -305,20 +364,27 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = 41.5
+offset_left = 42.0
 offset_top = -90.0
-offset_right = 308.5
-offset_bottom = -19.0
+offset_right = 335.0
+offset_bottom = -3.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 25
 text = "REVERT TO ORIGIANL"
 
+[node name="PromptTimer" type="Timer" parent="SettingsMenu/Settings/WarningPrompt"]
+wait_time = 15.0
+
 [connection signal="pressed" from="MainMenu/Main/PlayBtn" to="." method="_on_play_btn_pressed"]
 [connection signal="pressed" from="MainMenu/Main/SettingsBtn" to="." method="_on_settings_btn_pressed"]
 [connection signal="pressed" from="SettingsMenu/Settings/ApplyBtn" to="." method="_on_apply_btn_pressed"]
-[connection signal="value_changed" from="SettingsMenu/Settings/WidthBox" to="." method="_on_width_box_value_changed"]
-[connection signal="value_changed" from="SettingsMenu/Settings/HeightBox" to="." method="_on_height_box_value_changed"]
+[connection signal="toggled" from="SettingsMenu/Settings/VsyncBtn" to="." method="_on_vsync_btn_toggled"]
+[connection signal="toggled" from="SettingsMenu/Settings/FullScreenBtn" to="." method="_on_full_screen_btn_toggled"]
+[connection signal="value_changed" from="SettingsMenu/Settings/ResolutionOptions/WidthBox" to="." method="_on_width_box_value_changed"]
+[connection signal="value_changed" from="SettingsMenu/Settings/ResolutionOptions/HeightBox" to="." method="_on_height_box_value_changed"]
+[connection signal="pressed" from="SettingsMenu/Settings/ResolutionOptions/ResetBtn" to="." method="_on_reset_btn_pressed"]
 [connection signal="pressed" from="SettingsMenu/Settings/BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="SettingsMenu/Settings/WarningPrompt/ApplyChange" to="." method="_on_apply_change_pressed"]
 [connection signal="pressed" from="SettingsMenu/Settings/WarningPrompt/RevertBtn" to="." method="_on_revert_btn_pressed"]
+[connection signal="timeout" from="SettingsMenu/Settings/WarningPrompt/PromptTimer" to="." method="_on_prompt_timer_timeout"]
