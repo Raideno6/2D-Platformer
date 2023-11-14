@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://pruh33indkux"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_cigi0"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_bdk75"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_58i3y"]
+size = Vector2(64, 64)
+
+[node name="RigidBody2D" type="RigidBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_cigi0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(32, 32)
+scale = Vector2(32, 32)
+texture = SubResource("CanvasTexture_bdk75")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(32, 32)
+scale = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_58i3y")

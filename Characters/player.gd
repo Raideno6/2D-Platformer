@@ -6,7 +6,7 @@ var maxSpeed = 200;
 
 var maxCrouchSpeed = 100;
 
-var gravity = 750;
+var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 var maxJumpHeight = 150
 
@@ -94,8 +94,6 @@ func _physics_process(delta):
 	
 	if not is_on_floor() && Input.is_action_pressed("Crouch"):
 		velocity.y += 2000 * delta;
-	
-
 
 #Gets input from user to move left and right
 func update_input():
@@ -112,6 +110,8 @@ func player_movement(delta):
 	#allows user to crouch and makes them walk slower if so
 	if Input.is_action_pressed("Crouch") and is_on_floor():
 		velocity.x = lerp(velocity.x ,xInput * maxCrouchSpeed,ACCEL * delta)
+		canJump = false
+		bufferedJump = false
 	else:
 		velocity.x = lerp(velocity.x ,xInput * maxSpeed,ACCEL * delta)
 	

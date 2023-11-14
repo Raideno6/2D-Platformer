@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cc0xfsmoqifvv"]
+[gd_scene load_steps=9 format=3 uid="uid://cc0xfsmoqifvv"]
 
 [ext_resource type="Script" path="res://start_level.gd" id="1_iqafo"]
 [ext_resource type="Texture2D" uid="uid://bpxkfakffpa5m" path="res://art/Legacy-Fantasy - High Forest 2.3/Assets/Tiles.png" id="1_kqx6t"]
 [ext_resource type="PackedScene" uid="uid://bn4m5ryfr1oef" path="res://Characters/player.tscn" id="2_k7cfr"]
 [ext_resource type="Texture2D" uid="uid://dye8hi8r8gp2k" path="res://art/Legacy-Fantasy - High Forest 2.3/Background/Background.png" id="4_jc4gt"]
+[ext_resource type="PackedScene" uid="uid://pruh33indkux" path="res://movable_block.tscn" id="5_6ovff"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gsrld"]
 texture = ExtResource("1_kqx6t")
@@ -1434,6 +1435,11 @@ script = ExtResource("1_iqafo")
 [node name="Player" parent="." instance=ExtResource("2_k7cfr")]
 unique_name_in_owner = true
 position = Vector2(-40, 0)
+
+[node name="RigidBody2D" parent="." instance=ExtResource("5_6ovff")]
+position = Vector2(152, -160)
+mass = 0.01
+can_sleep = false
 
 [node name="TileMap" type="TileMap" parent="."]
 position = Vector2(3, -33)

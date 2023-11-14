@@ -209,10 +209,9 @@ theme_override_font_sizes/font_size = 30
 text = "ON"
 
 [node name="ResolutionOptions" type="Panel" parent="SettingsMenu/Settings"]
-offset_right = 40.0
-offset_bottom = 40.0
 
 [node name="WidthBox" type="SpinBox" parent="SettingsMenu/Settings/ResolutionOptions"]
+layout_mode = 0
 offset_left = 648.0
 offset_top = 266.0
 offset_right = 731.063
@@ -223,6 +222,7 @@ rounded = true
 alignment = 1
 
 [node name="HeightBox" type="SpinBox" parent="SettingsMenu/Settings/ResolutionOptions"]
+layout_mode = 0
 offset_left = 754.0
 offset_top = 266.0
 offset_right = 837.063
@@ -255,6 +255,7 @@ offset_bottom = 264.6
 text = "Height"
 
 [node name="Label" type="Label" parent="SettingsMenu/Settings/ResolutionOptions"]
+layout_mode = 0
 offset_left = 734.0
 offset_top = 285.0
 offset_right = 744.0
@@ -262,6 +263,7 @@ offset_bottom = 311.0
 text = "X"
 
 [node name="ResetBtn" type="Button" parent="SettingsMenu/Settings/ResolutionOptions"]
+layout_mode = 0
 offset_left = 664.0
 offset_top = 329.0
 offset_right = 810.0
