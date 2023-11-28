@@ -22,6 +22,8 @@ var coyoteTime = .2
 
 var canJump = false
 
+var pushForce = 50.0
+
 @onready var jumpBuffer = $JumpBuffer
 
 @onready var waveTimer = $WaveTimer
@@ -51,6 +53,12 @@ func _physics_process(delta):
 	
 	player_movement(delta)
 	
+	for i in get_slide_collision_count():
+		var c = get_slide_collision(i)
+		if c.get_collider() is RigidBody2D:
+			c.get_collider().apply_central_impulse(-c.get_normal() * (pushForce))
+	print("X-Velocity: ",velocity.x)
+	print("Y-Velocity: ",velocity.y)
 	#When player reaches the floor and if they cannot jump, allow them to jump
 	if is_on_floor() and canJump == false:
 		canJump = true

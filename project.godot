@@ -21,6 +21,7 @@ Global="*res://Global.gd"
 
 [display]
 
+window/size/resizable=false
 window/stretch/mode="viewport"
 
 [input]
@@ -76,6 +77,7 @@ Wave={
 2d_physics/layer_2="Ground"
 2d_physics/layer_3="Player"
 2d_physics/layer_4="Death Zone"
+2d_physics/layer_5="Items"
 
 [physics]
 
